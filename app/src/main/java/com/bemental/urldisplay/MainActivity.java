@@ -1,6 +1,7 @@
 package com.bemental.urldisplay;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,8 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity
 {
-    public final static String EXTRA_MESSAGE = "com.bementalurldisplay.MESSAGE";
+    public static final String BASE_URL = "http://www.sportsmanregs.com/app/legal/EULA";
+    public static final String TAIL_URL = "Android.html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -17,12 +19,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
     }
 
-    public void sendMessage(View view)
+    public void displayUrl(View view)
     {
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+        EditText editText = (EditText) findViewById(R.id.state_code_text);
+        String state_code = editText.getText().toString();
+        String validUrl = BASE_URL + state_code + TAIL_URL;
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(validUrl));
         startActivity(intent);
     }
 }
