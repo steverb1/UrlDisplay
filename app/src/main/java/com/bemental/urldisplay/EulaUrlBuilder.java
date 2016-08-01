@@ -1,32 +1,48 @@
 package com.bemental.urldisplay;
 
-import java.io.IOException;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class EulaUrlBuilder
+public class EulaUrlBuilder extends AsyncTask<String, Void, Boolean>
 {
     public static final String BASE_URL = "http://www.sportsmanregs.com/app/legal/EULA";
     public static final String TAIL_URL = "Android.html";
 
-    public String urlFromStateCode(String stateCode)
-    {
-        String candidateUrl = BASE_URL + stateCode + TAIL_URL;
+    private MainActivity mainActivity;
+    private String candidateUrl;
 
-        return urlIsValid(candidateUrl) ? candidateUrl : BASE_URL + TAIL_URL;
+    public void urlFromStateCode(String stateCode, MainActivity mainActivity)
+    {
+        this.mainActivity = mainActivity;
+        candidateUrl = BASE_URL + stateCode + TAIL_URL;
+
+        this.execute(candidateUrl);
     }
 
-    private boolean urlIsValid(String candidateUrl)
+    @Override
+    protected Boolean doInBackground(String... candidateUrl)
     {
         try
         {
-            HttpURLConnection connection = (HttpURLConnection) new URL(candidateUrl).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(candidateUrl[0]).openConnection();
+
             return connection.getResponseCode() == HttpURLConnection.HTTP_OK;
         }
-        catch (IOException e)
+        catch (Exception e)
         {
-            //e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    protected void onPostExecute(Boolean urlOk)
+    {
+        String validUrl = urlOk ? candidateUrl : BASE_URL + TAIL_URL;
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(validUrl));
+        mainActivity.startActivity(intent);
     }
 }
