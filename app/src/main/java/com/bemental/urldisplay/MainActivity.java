@@ -9,8 +9,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity
 {
-    public static final String BASE_URL = "http://www.sportsmanregs.com/app/legal/EULA";
-    public static final String TAIL_URL = "Android.html";
+    private EulaUrlBuilder checker = new EulaUrlBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity
     {
         EditText editText = (EditText) findViewById(R.id.state_code_text);
         String state_code = editText.getText().toString();
-        String validUrl = BASE_URL + state_code + TAIL_URL;
+        String validUrl = checker.urlFromStateCode(state_code);
         Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse(validUrl));
         startActivity(intent);
     }
