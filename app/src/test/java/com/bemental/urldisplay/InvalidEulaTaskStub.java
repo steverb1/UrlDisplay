@@ -9,8 +9,8 @@ public class InvalidEulaTaskStub extends EulaTask
     }
 
     @Override
-    protected void onPostExecute(Boolean urlOk)
+    public void checkUrl(String url)
     {
-
+        onPostExecute(false);
     }
 }

@@ -14,6 +14,11 @@ public class EulaTask extends AsyncTask<String, Void, Boolean>
         this.builder = builder;
     }
 
+    public void checkUrl(String url)
+    {
+        this.execute(url);
+    }
+
     @Override
     protected Boolean doInBackground(String... candidateUrl)
     {

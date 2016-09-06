@@ -1,7 +1,5 @@
 package com.bemental.urldisplay;
 
-import android.os.AsyncTask;
-
 public class EulaUrlBuilder
 {
     public static final String BASE_URL = "http://www.sportsmanregs.com/app/legal/EULA";
@@ -9,9 +7,9 @@ public class EulaUrlBuilder
 
     private MainActivity mainActivity;
     private String candidateUrl;
-    private AsyncTask<String, Void, Boolean> eulaTask;
+    private EulaTask eulaTask;
 
-    public EulaUrlBuilder(AsyncTask<String, Void, Boolean> eulaTask, MainActivity mainActivity)
+    public EulaUrlBuilder(EulaTask eulaTask, MainActivity mainActivity)
     {
         this.eulaTask = eulaTask;
         this.mainActivity = mainActivity;
@@ -21,7 +19,7 @@ public class EulaUrlBuilder
     {
         candidateUrl = BASE_URL + stateCode + TAIL_URL;
 
-        eulaTask.execute(candidateUrl);
+        eulaTask.checkUrl(candidateUrl);
     }
 
     void displayUrl(Boolean urlOk)
